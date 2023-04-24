@@ -1,0 +1,1 @@
+(()=>{"use strict";(new(function(){function t(){}return t.prototype.startSpan=function(t){console.log("Start span: ".concat(t))},t}())).startSpan("s"),console.log("It is main!")})();

@@ -14,7 +14,7 @@ export function createTransformer(program: ts.Program) {
       const propertyAccessExpression = node.expression;
       const {expression: obj, name: methodName} = propertyAccessExpression;
 
-      if (methodName.getText() !== 'startSpan') {
+      if (methodName.getText() !== 'startRootSpan') {
         return false;
       }
 
@@ -31,13 +31,17 @@ export function createTransformer(program: ts.Program) {
     function visit(node: ts.Node): ts.VisitResult<ts.Node> {
       if (isTelemetryServiceMethodCall(node)) {
         const callExpNode = node as ts.CallExpression;
-        const updatedFirstArgument = ts.factory.createStringLiteral("s");
-        const newArguments = [
-          updatedFirstArgument,
-          ...callExpNode.arguments.slice(1)
-        ];
-        const newNode = ts.factory.createCallExpression(callExpNode.expression, callExpNode.typeArguments, newArguments)
-        return newNode
+        //get span name
+        const spanName = callExpNode.arguments[0];
+
+        //you don't need this
+        //const updatedFirstArgument = ts.factory.createStringLiteral("s");
+        //const newArguments = [
+        //  updatedFirstArgument,
+        //  ...callExpNode.arguments.slice(1)
+        //];
+        //const newNode = ts.factory.createCallExpression(callExpNode.expression, callExpNode.typeArguments, newArguments)
+        //return newNode
       }
 
       return ts.visitEachChild(node, visit, context);

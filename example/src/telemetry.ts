@@ -1,9 +1,9 @@
-export interface TelemetryService {
-  startSpan(name: string): void;
+export interface Tracer {
+  startRootSpan(name: string): void;
 }
 
-export class MyTelemetryService implements TelemetryService {
-  startSpan(name: string) {
+export class MyTracer implements Tracer {
+  startRootSpan(name: string) {
     console.log(`Start span: ${name}`);
   }
 }
